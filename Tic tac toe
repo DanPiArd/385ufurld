@@ -1,0 +1,93 @@
+import java.util.Scanner;
+public class Main {
+    public static void main(String[] args) {
+        // write your code here
+        imprimirVazio();
+        Scanner scanner = new Scanner(System.in);
+        char[][] newCharArr = new char[3][3];
+        for (int i = 0; i < newCharArr.length; i++) {
+            for (int j = 0; j < newCharArr[i].length; j++) {
+                newCharArr[i][j] = ' ';
+            }
+        }
+        boolean repeat = true;
+        int countX = 0;
+        int countO = 0;
+        int countVez = 0;
+        do {
+            try {
+                System.out.println("Enter the coordinates:");
+                String[] input2 = scanner.nextLine().split(" ");
+                int coordRow = Integer.valueOf(input2[0]);
+                coordRow--;
+                int coordCol = Integer.valueOf(input2[1]);
+                coordCol--;
+                if (newCharArr[coordRow][coordCol] == 'X' || newCharArr[coordRow][coordCol] == 'O') {
+                    System.out.println("This cell is occupied! Choose another one!");
+                } else {
+                    if (countVez % 2 == 0) {
+                        newCharArr[coordRow][coordCol] = 'X';
+                        countVez++;
+                    } else {
+                        newCharArr[coordRow][coordCol] = 'O';
+                        countVez++;
+                    }
+                    imprimirJogadas(newCharArr);
+                }
+                if (checarGanhador(newCharArr) == 1) {
+                    System.out.println("X wins");
+                    break;
+                } else if (checarGanhador(newCharArr) == 2) {
+                    System.out.println("O wins");
+                    break;
+                } else if ( countVez == 9) {
+                    System.out.println("Draw");
+                }
+
+            } catch (IndexOutOfBoundsException a) {
+                System.out.println("Coordinates should be from 1 to 3!");
+            } catch (Exception b) {
+                System.out.println("You should enter numbers!");
+            }
+        } while (countVez < 9);
+    }
+
+    public static void imprimirVazio() {
+        System.out.println("---------" + "\n" +
+                "| " + " " + " " + " " + " " + " " + " |" + "\n" +
+                "| " + " " + " " + " " + " " + " " + " |" + "\n" +
+                "| " + " " + " " + " " + " " + " " + " |" + "\n" +
+                "---------");
+    }
+
+    public static void imprimirJogadas(char[][] arr) {
+        System.out.println("---------" + "\n" +
+                "| " + arr[0][0] + " " + arr[0][1] + " " + arr[0][2] + " |" + "\n" +
+                "| " + arr[1][0] + " " + arr[1][1] + " " + arr[1][2] + " |" + "\n" +
+                "| " + arr[2][0] + " " + arr[2][1] + " " + arr[2][2] + " |" + "\n" +
+                "---------");
+    }
+
+    public static int checarGanhador(char[][] inputArr) {
+        if (inputArr[0][0] == 'X' && inputArr[0][1] == 'X' && inputArr[0][2] == 'X' ||
+                inputArr[1][0] == 'X' && inputArr[1][1] == 'X' && inputArr[1][2] == 'X' ||
+                inputArr[2][0] == 'X' && inputArr[2][1] == 'X' && inputArr[2][2] == 'X' ||
+                inputArr[0][0] == 'X' && inputArr[1][0] == 'X' && inputArr[2][0] == 'X' ||
+                inputArr[0][1] == 'X' && inputArr[1][1] == 'X' && inputArr[2][1] == 'X' ||
+                inputArr[0][2] == 'X' && inputArr[1][2] == 'X' && inputArr[2][2] == 'X' ||
+                inputArr[0][0] == 'X' && inputArr[1][1] == 'X' && inputArr[2][2] == 'X' ||
+                inputArr[0][2] == 'X' && inputArr[1][1] == 'X' && inputArr[2][0] == 'X') {
+            return 1;
+        } else if (inputArr[0][0] == 'O' && inputArr[0][1] == 'O' && inputArr[0][2] == 'O' ||
+                inputArr[1][0] == 'O' && inputArr[1][1] == 'O' && inputArr[1][2] == 'O' ||
+                inputArr[2][0] == 'O' && inputArr[2][1] == 'O' && inputArr[2][2] == 'O' ||
+                inputArr[0][0] == 'O' && inputArr[1][0] == 'O' && inputArr[2][0] == 'O' ||
+                inputArr[0][1] == 'O' && inputArr[1][1] == 'O' && inputArr[2][1] == 'O' ||
+                inputArr[0][2] == 'O' && inputArr[1][2] == 'O' && inputArr[2][2] == 'O' ||
+                inputArr[0][0] == 'O' && inputArr[1][1] == 'O' && inputArr[2][2] == 'O' ||
+                inputArr[0][2] == 'O' && inputArr[1][1] == 'O' && inputArr[2][0] == 'O') {
+            return 2;
+        }
+        return 0;
+    }
+}
